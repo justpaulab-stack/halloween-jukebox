@@ -88,7 +88,7 @@ async function runShortcut(text){
     response.textContent='Tap the request again and I’ll have another go.';
     return;
   }
-  response.textContent=`Copied “${text}”. Opening Haunted Jukebox Play…`;
+  response.textContent=`Sending “${text}” to Haunted Jukebox Queue…`;
   const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play');
   setTimeout(()=>{window.location.href=url;},80);
 }
@@ -96,7 +96,7 @@ async function runShortcut(text){
 function showConfirm(displayText,payload,isFavourite=false){
   catalog.hidden=false;
   catalog.innerHTML=`<div class="track-card" style="grid-template-columns:1fr;text-align:center">
-    <div><div class="track-title">${escapeHtml(displayText)}</div><div class="track-artist">Send this request to Apple Music?</div></div>
+    <div><div class="track-title">${escapeHtml(displayText)}</div><div class="track-artist">Add this request to Haunted Jukebox Queue?</div></div>
     <div class="track-actions"><button class="yes-track" id="yesTrack" type="button">✓ THAT’S IT</button><button class="no-track" id="noTrack" type="button">✕ CHANGE IT</button></div>
   </div>`;
   document.getElementById('yesTrack').addEventListener('click',()=>{
@@ -130,7 +130,7 @@ function judgeRequest(q){
     return;
   }
   greeting.textContent='This one, darling?';
-  response.textContent='I’ll hand your exact request to Apple Music.';
+  response.textContent='I’ll send your exact request to the Haunted Jukebox Queue.';
   showConfirm(q,q,false);
 }
 
