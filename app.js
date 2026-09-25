@@ -60,9 +60,37 @@ function isVeto(q){const n=normalise(q);return vetoTerms.some(term=>n.includes(n
 function escapeHtml(s=''){return s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));}
 function hideConfirm(){catalog.hidden=true;catalog.innerHTML='';}
 
-function runShortcut(text){
-  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text);
-  window.location.href=url;
+async function copyRequest(text){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(e){}
+  const box=document.createElement('textarea');
+  box.value=text;
+  box.setAttribute('readonly','');
+  box.style.position='fixed';
+  box.style.opacity='0';
+  document.body.appendChild(box);
+  box.select();
+  box.setSelectionRange(0,box.value.length);
+  let copied=false;
+  try{copied=document.execCommand('copy');}catch(e){}
+  box.remove();
+  return copied;
+}
+
+async function runShortcut(text){
+  const copied=await copyRequest(text);
+  if(!copied){
+    greeting.textContent='Darling, the clipboard is refusing to cooperate.';
+    response.textContent='Tap the request again and I’ll have another go.';
+    return;
+  }
+  response.textContent=`Copied “${text}”. Opening Haunted Jukebox Play…`;
+  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play');
+  setTimeout(()=>{window.location.href=url;},80);
 }
 
 function showConfirm(displayText,payload,isFavourite=false){
@@ -74,8 +102,8 @@ function showConfirm(displayText,payload,isFavourite=false){
   document.getElementById('yesTrack').addEventListener('click',()=>{
     if(isFavourite) greeting.textContent='MY FAVOURITE SONG! Marry me?';
     else greeting.textContent='Fine. I’ll allow it.';
-    response.textContent=`Sending “${displayText}” to Apple Music…`;
-    setTimeout(()=>runShortcut(payload),180);
+    response.textContent=`Preparing “${displayText}”…`;
+    runShortcut(payload);
   });
   document.getElementById('noTrack').addEventListener('click',()=>{
     hideConfirm();
@@ -121,7 +149,7 @@ document.getElementById('youChoose').addEventListener('click',()=>{
   greeting.textContent='Leave it to me, darling.';
   response.textContent=`I choose ${f.label}. Naturally.`;
   document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
-  setTimeout(()=>runShortcut(f.search),650);
+  runShortcut(f.search);
 });
 
 request.addEventListener('input',()=>{if(request.value.trim()){response.textContent='Go on…';hideConfirm();}});
