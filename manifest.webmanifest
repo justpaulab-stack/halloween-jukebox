@@ -1,0 +1,9 @@
+{
+  "name": "The Haunted Jukebox",
+  "short_name": "Haunted Jukebox",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090510",
+  "theme_color": "#120c22",
+  "description": "A haunted party jukebox prototype."
+}
