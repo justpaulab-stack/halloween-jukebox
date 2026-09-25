@@ -10,58 +10,261 @@
 <link rel="manifest" href="manifest.webmanifest">
 <title>The Haunted Jukebox</title>
 <style>
-:root{--h:285;--ink:#fff8ff;--muted:#d9cce6}
+:root{
+  --bg1:#090510;
+  --bg2:#27113a;
+  --ink:#fff8ff;
+  --muted:#d8c9e6;
+  --ghost-hue:282;
+  --beat:1;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:ui-rounded,"SF Pro Rounded","Avenir Next",system-ui,sans-serif;background:#090510;color:var(--ink)}
-body{background:radial-gradient(circle at 20% 15%,hsla(var(--h),90%,62%,.22),transparent 34%),radial-gradient(circle at 82% 78%,hsla(calc(var(--h) + 75),90%,62%,.18),transparent 38%),linear-gradient(145deg,#090510,#27113a);transition:background .8s ease}
-.app{height:100%;position:relative;overflow:hidden;isolation:isolate}
-.stars{position:absolute;inset:-12%;z-index:-4;opacity:.24;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:38px 38px;animation:stars 28s linear infinite}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090510;color:var(--ink);font-family:ui-rounded,"SF Pro Rounded","Avenir Next",system-ui,sans-serif}
+body{
+  background:
+    radial-gradient(circle at 22% 15%,hsla(var(--ghost-hue),90%,63%,.22),transparent 34%),
+    radial-gradient(circle at 82% 78%,hsla(calc(var(--ghost-hue) + 78),88%,62%,.18),transparent 38%),
+    linear-gradient(145deg,var(--bg1),var(--bg2));
+  transition:background .8s ease;
+}
+.app{position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}
+.stars{position:absolute;inset:-15%;opacity:.26;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:38px 38px;animation:stars 28s linear infinite;z-index:-4}
 @keyframes stars{to{transform:translate3d(76px,114px,0)}}
-.aura{position:absolute;inset:-20%;z-index:-3;background:radial-gradient(circle,hsla(var(--h),100%,70%,.14),transparent 55%);animation:aura .95s ease-in-out infinite alternate}
-@keyframes aura{to{transform:scale(1.08);opacity:.65}}
+.aura{position:absolute;inset:-15%;background:radial-gradient(circle at 50% 50%,hsla(var(--ghost-hue),100%,70%,.13),transparent 52%);animation:aura 920ms ease-in-out infinite alternate;z-index:-3}
+@keyframes aura{to{transform:scale(1.08);opacity:.68}}
 .ghost-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
-.ghost{--s:1;position:absolute;width:62px;height:78px;opacity:.65;transform:scale(var(--s));filter:drop-shadow(0 0 18px hsla(var(--h),100%,72%,.72));animation:float var(--dur,7s) ease-in-out infinite alternate,sway var(--sway,12s) ease-in-out infinite alternate}
-.ghost::before{content:"";position:absolute;inset:0 0 18px;background:hsla(var(--h),86%,93%,.86);border-radius:50% 50% 42% 42%;transition:background .7s}
-.ghost::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:25px;background:radial-gradient(circle at 13px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 32px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 51px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px)}
+.ghost{
+  --s:1;
+  position:absolute;width:62px;height:78px;opacity:.65;
+  transform:scale(var(--s));
+  filter:drop-shadow(0 0 calc(12px + 8px * var(--beat)) hsla(var(--ghost-hue),100%,72%,.72));
+  animation:float var(--dur,7s) ease-in-out infinite alternate, sway var(--sway,12s) ease-in-out infinite alternate;
+}
+.ghost::before{content:"";position:absolute;inset:0 0 18px;background:hsla(var(--ghost-hue),86%,93%,.86);border-radius:50% 50% 42% 42%;transition:background .7s ease}
+.ghost::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:25px;background:radial-gradient(circle at 13px 2px,hsla(var(--ghost-hue),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 32px 2px,hsla(var(--ghost-hue),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 51px 2px,hsla(var(--ghost-hue),86%,93%,.86) 0 13px,transparent 14px);transition:background .7s ease}
 .eye{position:absolute;top:25px;width:7px;height:10px;background:#251436;border-radius:50%;z-index:2}.eye.l{left:19px}.eye.r{right:19px}
 @keyframes float{from{translate:0 0;rotate:-2deg}to{translate:0 -22px;rotate:3deg}}
 @keyframes sway{from{margin-left:-16px}to{margin-left:34px}}
-.g1{left:5%;top:12%;--s:.82;--dur:5.8s;--sway:11s;animation-delay:-2s}.g2{right:5%;top:20%;--s:1.05;--dur:7.2s;--sway:15s;animation-delay:-5s}.g3{left:11%;bottom:14%;--s:.62;--dur:6.5s;--sway:13s;animation-delay:-4s}.g4{right:14%;bottom:9%;--s:.87;--dur:5.4s;--sway:10s;animation-delay:-3s}.g5{left:47%;top:5%;--s:.48;--dur:8.1s;--sway:16s;animation-delay:-7s}.g6{right:42%;bottom:4%;--s:.42;--dur:7.6s;--sway:14s;animation-delay:-6s}
-.screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:max(28px,env(safe-area-inset-top)) 18px max(26px,env(safe-area-inset-bottom));overflow:auto}.screen.active{display:flex}.center{width:min(660px,100%);text-align:center}
-.logo{font-size:clamp(34px,10vw,64px);line-height:.94;letter-spacing:.055em;font-weight:950;text-transform:uppercase;text-shadow:0 0 28px hsla(var(--h),100%,75%,.28)}
+.g1{left:5%;top:12%;--s:.82;--dur:5.8s;--sway:11s;animation-delay:-2s}
+.g2{right:5%;top:20%;--s:1.05;--dur:7.2s;--sway:15s;animation-delay:-5s}
+.g3{left:11%;bottom:14%;--s:.62;--dur:6.5s;--sway:13s;animation-delay:-4s}
+.g4{right:14%;bottom:9%;--s:.87;--dur:5.4s;--sway:10s;animation-delay:-3s}
+.g5{left:47%;top:5%;--s:.48;--dur:8.1s;--sway:16s;animation-delay:-7s}
+.g6{right:42%;bottom:4%;--s:.42;--dur:7.6s;--sway:14s;animation-delay:-6s}
+.screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:max(28px,env(safe-area-inset-top)) 18px max(26px,env(safe-area-inset-bottom));overflow:auto}
+.screen.active{display:flex}
+.center{width:min(660px,100%);text-align:center}
+.logo{font-size:clamp(34px,10vw,64px);line-height:.94;letter-spacing:.055em;font-weight:950;text-transform:uppercase;text-shadow:0 0 28px hsla(var(--ghost-hue),100%,75%,.28)}
 .kicker{margin-top:18px;font-size:clamp(17px,4.8vw,23px);color:var(--muted)}
-.summon{margin-top:34px;min-height:58px;padding:16px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);color:white;font-weight:900;letter-spacing:.04em;box-shadow:0 0 22px hsla(var(--h),95%,70%,.12);backdrop-filter:blur(16px);animation:summon 1.85s ease-in-out infinite}
-@keyframes summon{50%{transform:translateY(-2px) scale(1.018);box-shadow:0 0 38px hsla(var(--h),95%,70%,.28)}}
-.host{width:126px;height:154px;margin:0 auto 20px;position:relative;filter:drop-shadow(0 0 30px hsla(var(--h),100%,72%,.72));animation:hostBob 2.6s ease-in-out infinite}
-.host::before{content:"";position:absolute;inset:0 0 30px;background:rgba(255,255,255,.94);border-radius:55% 55% 42% 42%}.host::after{content:"";position:absolute;left:0;right:0;bottom:10px;height:44px;background:radial-gradient(circle at 24px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 63px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 102px 2px,#fff 0 24px,transparent 25px)}
-.host .eye{top:47px;width:11px;height:15px}.host .eye.l{left:35px}.host .eye.r{right:35px}.mouth{position:absolute;z-index:3;top:80px;left:53px;width:20px;height:10px;border-bottom:4px solid #251436;border-radius:0 0 50% 50%}.bow{position:absolute;z-index:4;bottom:31px;left:42px;width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-right:21px solid hsl(var(--h) 75% 58%)}.bow::after{content:"";position:absolute;left:20px;top:-13px;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:21px solid hsl(var(--h) 75% 58%)}
+.summon{margin-top:34px;min-height:58px;padding:16px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);color:white;font-weight:900;letter-spacing:.04em;box-shadow:0 0 22px hsla(var(--ghost-hue),95%,70%,.12);backdrop-filter:blur(16px);animation:summon 1.85s ease-in-out infinite}
+@keyframes summon{50%{transform:translateY(-2px) scale(1.018);box-shadow:0 0 38px hsla(var(--ghost-hue),95%,70%,.28)}}
+.host{width:126px;height:154px;margin:0 auto 20px;position:relative;filter:drop-shadow(0 0 30px hsla(var(--ghost-hue),100%,72%,.72));animation:hostBob 2.6s ease-in-out infinite}
+.host::before{content:"";position:absolute;inset:0 0 30px;background:rgba(255,255,255,.94);border-radius:55% 55% 42% 42%}
+.host::after{content:"";position:absolute;left:0;right:0;bottom:10px;height:44px;background:radial-gradient(circle at 24px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 63px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 102px 2px,#fff 0 24px,transparent 25px)}
+.host .eye{top:47px;width:11px;height:15px}.host .eye.l{left:35px}.host .eye.r{right:35px}
+.mouth{position:absolute;z-index:3;top:80px;left:53px;width:20px;height:10px;border-bottom:4px solid #251436;border-radius:0 0 50% 50%}
+.bow{position:absolute;z-index:4;bottom:31px;left:42px;width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-right:21px solid hsl(var(--ghost-hue) 75% 58%)}
+.bow::after{content:"";position:absolute;left:20px;top:-13px;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:21px solid hsl(var(--ghost-hue) 75% 58%)}
 @keyframes hostBob{50%{transform:translateY(-9px) rotate(1deg)}}
-.bubble{max-width:620px;margin:0 auto 22px;padding:18px 20px;border-radius:24px;background:rgba(255,255,255,.96);color:#28183b;font-size:clamp(22px,6vw,34px);line-height:1.12;font-weight:900;box-shadow:0 18px 70px rgba(0,0,0,.34)}
-.request{display:flex;gap:9px;padding:9px;border:1px solid rgba(255,255,255,.22);border-radius:18px;background:rgba(255,255,255,.1);backdrop-filter:blur(18px)}
-input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font-size:19px;padding:10px}input::placeholder{color:#d5c9df}.go{border:0;border-radius:14px;padding:12px 16px;background:#fff;color:#261537;font-weight:950}.hint{margin-top:12px;color:rgba(255,255,255,.56);font-size:13px}
-@media(max-width:520px){.g5,.g6{display:none}.host{width:112px;height:138px}.host .eye{top:42px}.host .eye.l{left:31px}.host .eye.r{right:31px}.mouth{top:72px;left:47px}.bow{bottom:27px;left:37px}}
+.bubble{max-width:610px;margin:0 auto 20px;padding:18px 20px;border-radius:25px;background:rgba(255,255,255,.96);color:#28183b;font-weight:900;font-size:clamp(22px,6vw,35px);line-height:1.13;box-shadow:0 18px 70px rgba(0,0,0,.36)}
+.inputwrap{display:flex;gap:10px;padding:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.23);border-radius:19px;backdrop-filter:blur(18px)}
+input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font-size:19px;padding:10px 9px}input::placeholder{color:#d7cce2}
+.go{border:0;border-radius:14px;padding:12px 16px;background:#fff;color:#251436;font-weight:950}
+.pickrow{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px}
+.choose{min-height:48px;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-weight:950;letter-spacing:.035em;box-shadow:0 0 24px hsla(var(--ghost-hue),95%,70%,.12);backdrop-filter:blur(16px)}
+.response{min-height:46px;margin:14px auto 0;padding:0 8px;color:#eadff2;font-size:16px;line-height:1.35}
+.back{margin-top:12px;border:0;background:transparent;color:#cdbddd;text-decoration:underline;text-underline-offset:4px;font-size:14px}
+.footer{position:absolute;left:0;right:0;bottom:max(8px,env(safe-area-inset-bottom));text-align:center;font-size:11px;letter-spacing:.11em;color:rgba(255,255,255,.38);pointer-events:none}
+@media(max-width:390px){.ghost.g5,.ghost.g6{display:none}.host{width:112px;height:137px}.host .eye{top:42px}.host .eye.l{left:32px}.host .eye.r{right:32px}.mouth{top:72px;left:47px}.bow{bottom:27px;left:37px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="stars"></div><div class="aura"></div>
-  <div class="ghost-layer">
-    <div class="ghost g1"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g2"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g3"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g4"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g5"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g6"><i class="eye l"></i><i class="eye r"></i></div>
+  <div class="ghost-layer" aria-hidden="true">
+    <div class="ghost g1"><i class="eye l"></i><i class="eye r"></i></div>
+    <div class="ghost g2"><i class="eye l"></i><i class="eye r"></i></div>
+    <div class="ghost g3"><i class="eye l"></i><i class="eye r"></i></div>
+    <div class="ghost g4"><i class="eye l"></i><i class="eye r"></i></div>
+    <div class="ghost g5"><i class="eye l"></i><i class="eye r"></i></div>
+    <div class="ghost g6"><i class="eye l"></i><i class="eye r"></i></div>
   </div>
-  <section id="front" class="screen active"><div class="center"><div class="logo">The Haunted<br>Jukebox</div><div class="kicker">The host is hovering nearby.</div><button class="summon" id="summonBtn">TAP TO SUMMON THE HOST</button></div></section>
-  <section id="entry" class="screen"><div class="center"><div class="host"><i class="eye l"></i><i class="eye r"></i><span class="mouth"></span><span class="bow"></span></div><div class="bubble" id="greeting"></div><div class="request"><input id="song" autocomplete="off" inputmode="text" placeholder="Type a song or artist…"><button class="go" id="goBtn">Ask</button></div><div class="hint">Go on. He has opinions.</div></div></section>
+
+  <section id="door" class="screen active" aria-label="Haunted Jukebox entrance">
+    <div class="center">
+      <div class="logo">The Haunted<br>Jukebox</div>
+      <div class="kicker">The host is hovering nearby.</div>
+      <button id="summon" class="summon" type="button">TAP TO SUMMON THE HOST</button>
+    </div>
+  </section>
+
+  <section id="entry" class="screen" aria-label="Song request">
+    <div class="center">
+      <div class="host" aria-hidden="true"><i class="eye l"></i><i class="eye r"></i><span class="mouth"></span><span class="bow"></span></div>
+      <div class="bubble" id="greeting">Darling, where have you been?</div>
+      <form id="requestForm" class="inputwrap">
+        <input id="request" autocomplete="off" autocapitalize="words" enterkeyhint="go" placeholder="Type a song or artist…" aria-label="Song request">
+        <button class="go" type="submit">Ask</button>
+      </form>
+      <div class="pickrow"><button id="youChoose" class="choose" type="button">YOU CHOOSE</button></div>
+      <div id="response" class="response">Choose a song, or let me choose for you, darling.</div>
+      <button id="back" class="back" type="button">Return to the door</button>
+    </div>
+  </section>
+
+  <div class="footer">HAUNTED JUKEBOX • PHONE PROTOTYPE</div>
 </div>
 <script>
-const greetings=[
-"Darling, where have you been?","Oh good, it’s you, my love.","Angel, can you scratch my back for me?","Come here and squeeze me, sweet thing.","Oh helLO!","Hey sweet cheeks.","Kiss kiss darling, hurry up now.","I’ve been waiting so long for you, my love.","Come here… closer… closer! Oh that’s nice.","Dance with me?","Would you like to dance?","Oh there you are, my human glitterball.","Oh. Oh my goodness. At last, it’s you.","Hey bestie.","DARling, let me look at you.","Twirl for me. Oh. Oh you look GOOD.","There’s my favourite human.","You! Come here immediately.","Darling, I was beginning to think you’d forgotten me.","Look at you, swanning in here.","Sweetheart! Give us a little spin.","There you are, gorgeous creature.","My love! I’ve been haunting the doorway for ages.","Hello, trouble. Come closer.","Darling, darling, darling. Finally.","Oh good, my favourite person has arrived.","Sweet cheeks! What kept you?","Come here, you glorious thing.","Bestie! I have gossip.","There’s my sparkly little menace.","My darling! I knew you’d come back.","Look who’s finally graced me with their presence.","Angel face! I was just thinking about you.","Come on then, beautiful. Entertain me.","Oh hello, superstar.","There’s my dancing partner.","Sweetheart, you look suspiciously fabulous.","Darling! I require attention.","My love, come and keep me company.","Hey gorgeous, where have you been hiding?","There you are. I can relax now.","Kiss kiss. Right, what are we listening to?","Darling, I’ve missed your face.","Come here, my little disco comet.","You made it! I was about to send a ghost to fetch you.","Hello, beautiful human. Dance first, explanations later.","Oh darling, this room just improved.","Sweet thing! Come and choose something scandalous.","There’s my favourite living person.","Everyone behave. We have company."
+const greetings = [
+  "Darling, where have you been?",
+  "Oh good, it’s you, my love.",
+  "Angel, can you scratch my back for me?",
+  "Come here and squeeze me, sweet thing.",
+  "Oh helLO!",
+  "Hey sweet cheeks.",
+  "Kiss kiss, darling, hurry up now.",
+  "I’ve been waiting so long for you, my love.",
+  "Come here… closer… closer! Oh, that’s nice.",
+  "Dance with me?",
+  "Would you like to dance?",
+  "Oh there you are, my human glitterball.",
+  "Oh. Oh my goodness. At last, it’s you.",
+  "Hey bestie.",
+  "DARling, let me look at you.",
+  "Twirl for me. Oh. Oh, you look GOOD.",
+  "There’s my favourite human.",
+  "Sweetheart! I was starting to think you’d forgotten me.",
+  "My love, come and stand where I can admire you.",
+  "Baby! You made it. I can stop haunting the hallway now.",
+  "Darling, give us a little spin.",
+  "There you are, gorgeous creature.",
+  "Come here, you fabulous thing.",
+  "My angel! Honestly, the relief.",
+  "Sweet cheeks! I knew I felt a disturbance in the glamour.",
+  "Darling, I’ve missed your face.",
+  "Hello, lover. Behave yourself. Or don’t.",
+  "Look at you! Come closer immediately.",
+  "Bestie! I have been DYING to see you. Again.",
+  "Oh, sweetheart, you’ve absolutely made my afterlife.",
+  "My darling human! Where have you been hiding?",
+  "Come here, petal. Let me fuss over you.",
+  "There’s my little disco peach.",
+  "Hello, gorgeous. I was just thinking about you.",
+  "Darling! Arms out. I’m imagining a hug.",
+  "Angel face! Have you come to dance with me?",
+  "Oh sweetheart, there you are. I was getting dramatic.",
+  "My love! Quick, before I start composing poetry about your absence.",
+  "Darling, darling, darling. Look who finally appeared.",
+  "Come in, gorgeous. I saved you a little bit of sparkle.",
+  "Sweet thing! I nearly floated off looking for you.",
+  "Oh, my favourite person-shaped party has arrived.",
+  "Hello, precious. Come and entertain me.",
+  "Darling, I need attention and you have excellent timing.",
+  "Sweetheart, come here. I have been starved of glamour.",
+  "My love, you’re here! Do something fabulous immediately.",
+  "Hello, angel. I knew you couldn’t stay away.",
+  "There you are, sugarplum. I was beginning to sulk.",
+  "Darling! Give me one good twirl and we’ll say no more about it.",
+  "Oh lovely, it’s YOU. Come and choose our song."
 ];
 let deck=[];
-function nextGreeting(){if(!deck.length){deck=[...greetings];for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}}return deck.pop()}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-document.getElementById('summonBtn').addEventListener('click',()=>{document.getElementById('greeting').textContent=nextGreeting();show('entry');setTimeout(()=>document.getElementById('song').focus(),350)});
-function requestSong(){const box=document.getElementById('song');const q=box.value.trim();if(!q)return;document.getElementById('greeting').textContent=`Ooh. ${q}. Give me a second, darling…`;document.documentElement.style.setProperty('--h',String(Math.floor(Math.random()*320)));box.blur()}
-document.getElementById('goBtn').addEventListener('click',requestSong);document.getElementById('song').addEventListener('keydown',e=>{if(e.key==='Enter')requestSong()});
-let hue=285;setInterval(()=>{hue=(hue+7)%360;document.documentElement.style.setProperty('--h',hue)},1300);
+function nextGreeting(){
+  if(!deck.length){
+    deck=Array.from({length:greetings.length},(_,i)=>i);
+    for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  }
+  return greetings[deck.pop()];
+}
+const door=document.getElementById('door');
+const entry=document.getElementById('entry');
+const greeting=document.getElementById('greeting');
+const request=document.getElementById('request');
+const response=document.getElementById('response');
+function showEntry(){
+  greeting.textContent=nextGreeting();
+  response.textContent='Choose a song, or let me choose for you, darling.';
+  request.value='';
+  door.classList.remove('active');
+  entry.classList.add('active');
+  document.documentElement.style.setProperty('--ghost-hue',Math.floor(255+Math.random()*90));
+}
+function showDoor(){entry.classList.remove('active');door.classList.add('active');}
+document.getElementById('summon').addEventListener('click',showEntry);
+document.getElementById('back').addEventListener('click',showDoor);
+const vetoTerms=[
+  'fleetwood mac','simply red','miley cyrus','michael bolton','the birdie song','birdie song','agadoo','power ballad',
+  'total eclipse of the heart','i don\'t want to miss a thing','every rose has its thorn','nothing\'s gonna stop us now',
+  'open arms','faithfully','against all odds','keep on loving you','when i see you smile','more than words','to be with you','home sweet home'
+];
+const favourites=[
+  {label:'Monster Mash — Bobby Pickett',match:['monster mash','bobby pickett']},
+  {label:'Time Warp — The Rocky Horror Picture Show',match:['time warp','timewarp','rocky horror','rocky horror picture show']},
+  {label:'Sweet Transvestite — The Rocky Horror Picture Show',match:['sweet transvestite']},
+  {label:'I Wanna Be a Cowboy, Baby! — CMAT',match:['cmat','i wanna be a cowboy baby']},
+  {label:'Rock Lobster — The B-52’s',match:['rock lobster','b-52','b52']},
+  {label:'Spirit in the Sky — Norman Greenbaum',match:['spirit in the sky','norman greenbaum']},
+  {label:'I Put a Spell on You — Hocus Pocus / Andrea Mazzarino',match:['i put a spell on you','hocus pocus','andrea mazzarino']},
+  {label:'(Don’t Fear) The Reaper — Blue Öyster Cult',match:['don’t fear the reaper','dont fear the reaper','blue oyster cult','blue öyster cult']},
+  {label:'Werewolves of London — Warren Zevon',match:['werewolves of london','warren zevon']},
+  {label:'Ghostbusters — Ray Parker Jr.',match:['ghostbusters','ray parker']},
+  {label:'Thriller — Michael Jackson',match:['thriller','michael jackson']},
+  {label:'Murder on the Dancefloor — Sophie Ellis-Bextor',match:['murder on the dancefloor','sophie ellis-bextor','sophie ellis bextor']},
+  {label:'Carry On Screaming — The Fratellis',match:['carry on screaming']},
+  {label:'Psycho Killer — Talking Heads',match:['psycho killer','talking heads']},
+  {label:'Love Potion No. 9 — The Searchers',match:['love potion number 9','love potion no 9','love potion no. 9']}
+];
+const vetoReplies=[
+  'No, darling. Absolutely not. Try again.',
+  'Denied. I have standards and an afterlife to protect.',
+  'Sweetheart, I adore you. I refuse this request.',
+  'No. The jukebox has boundaries.',
+  'Darling, I would rather haunt the fuse box.'
+];
+function normalise(text){return text.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9' ]+/g,' ').replace(/\s+/g,' ').trim();}
+function findFavourite(q){const n=normalise(q);return favourites.find(f=>f.match.some(m=>n.includes(normalise(m))));}
+function isVeto(q){const n=normalise(q);return vetoTerms.some(term=>n.includes(normalise(term)));}
+function celebrateFavourite(f){
+  greeting.textContent='MY FAVOURITE SONG! Marry me?';
+  response.textContent=`${f.label}. Put it on immediately, my love.`;
+  document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
+}
+function judgeRequest(q){
+  if(isVeto(q)){
+    greeting.textContent=vetoReplies[Math.floor(Math.random()*vetoReplies.length)];
+    response.textContent=`“${q}” will not be entering this jukebox.`;
+    document.documentElement.style.setProperty('--ghost-hue','350');
+    return;
+  }
+  const favourite=findFavourite(q);
+  if(favourite){celebrateFavourite(favourite);return;}
+  greeting.textContent='Fine. I’ll allow it.';
+  response.textContent=`“${q}” has been accepted into the haunted queue.`;
+  document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(Math.random()*360)));
+}
+document.getElementById('requestForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const q=request.value.trim();
+  if(!q){response.textContent='You do actually have to ask for a song, darling.';return;}
+  judgeRequest(q);
+  request.blur();
+});
+document.getElementById('youChoose').addEventListener('click',()=>{
+  const f=favourites[Math.floor(Math.random()*favourites.length)];
+  request.value='';
+  greeting.textContent='Leave it to me, darling.';
+  setTimeout(()=>celebrateFavourite(f),260);
+});
+request.addEventListener('input',()=>{if(request.value.trim()) response.textContent='Go on…';});
+let hue=282,beat=false;
+setInterval(()=>{
+  beat=!beat;
+  document.documentElement.style.setProperty('--beat',beat?'1.35':'.75');
+},460);
+setInterval(()=>{
+  hue=(hue+9)%360;
+  if(door.classList.contains('active')) document.documentElement.style.setProperty('--ghost-hue',hue);
+},820);
 </script>
 </body>
 </html>
