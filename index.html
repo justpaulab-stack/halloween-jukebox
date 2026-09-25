@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#120c22">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Haunted Jukebox">
+<link rel="manifest" href="manifest.webmanifest">
+<title>The Haunted Jukebox</title>
+<style>
+:root{--h:285;--ink:#fff8ff;--muted:#d9cce6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:ui-rounded,"SF Pro Rounded","Avenir Next",system-ui,sans-serif;background:#090510;color:var(--ink)}
+body{background:radial-gradient(circle at 20% 15%,hsla(var(--h),90%,62%,.22),transparent 34%),radial-gradient(circle at 82% 78%,hsla(calc(var(--h) + 75),90%,62%,.18),transparent 38%),linear-gradient(145deg,#090510,#27113a);transition:background .8s ease}
+.app{height:100%;position:relative;overflow:hidden;isolation:isolate}
+.stars{position:absolute;inset:-12%;z-index:-4;opacity:.24;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:38px 38px;animation:stars 28s linear infinite}
+@keyframes stars{to{transform:translate3d(76px,114px,0)}}
+.aura{position:absolute;inset:-20%;z-index:-3;background:radial-gradient(circle,hsla(var(--h),100%,70%,.14),transparent 55%);animation:aura .95s ease-in-out infinite alternate}
+@keyframes aura{to{transform:scale(1.08);opacity:.65}}
+.ghost-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.ghost{--s:1;position:absolute;width:62px;height:78px;opacity:.65;transform:scale(var(--s));filter:drop-shadow(0 0 18px hsla(var(--h),100%,72%,.72));animation:float var(--dur,7s) ease-in-out infinite alternate,sway var(--sway,12s) ease-in-out infinite alternate}
+.ghost::before{content:"";position:absolute;inset:0 0 18px;background:hsla(var(--h),86%,93%,.86);border-radius:50% 50% 42% 42%;transition:background .7s}
+.ghost::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:25px;background:radial-gradient(circle at 13px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 32px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px),radial-gradient(circle at 51px 2px,hsla(var(--h),86%,93%,.86) 0 13px,transparent 14px)}
+.eye{position:absolute;top:25px;width:7px;height:10px;background:#251436;border-radius:50%;z-index:2}.eye.l{left:19px}.eye.r{right:19px}
+@keyframes float{from{translate:0 0;rotate:-2deg}to{translate:0 -22px;rotate:3deg}}
+@keyframes sway{from{margin-left:-16px}to{margin-left:34px}}
+.g1{left:5%;top:12%;--s:.82;--dur:5.8s;--sway:11s;animation-delay:-2s}.g2{right:5%;top:20%;--s:1.05;--dur:7.2s;--sway:15s;animation-delay:-5s}.g3{left:11%;bottom:14%;--s:.62;--dur:6.5s;--sway:13s;animation-delay:-4s}.g4{right:14%;bottom:9%;--s:.87;--dur:5.4s;--sway:10s;animation-delay:-3s}.g5{left:47%;top:5%;--s:.48;--dur:8.1s;--sway:16s;animation-delay:-7s}.g6{right:42%;bottom:4%;--s:.42;--dur:7.6s;--sway:14s;animation-delay:-6s}
+.screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:max(28px,env(safe-area-inset-top)) 18px max(26px,env(safe-area-inset-bottom));overflow:auto}.screen.active{display:flex}.center{width:min(660px,100%);text-align:center}
+.logo{font-size:clamp(34px,10vw,64px);line-height:.94;letter-spacing:.055em;font-weight:950;text-transform:uppercase;text-shadow:0 0 28px hsla(var(--h),100%,75%,.28)}
+.kicker{margin-top:18px;font-size:clamp(17px,4.8vw,23px);color:var(--muted)}
+.summon{margin-top:34px;min-height:58px;padding:16px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);color:white;font-weight:900;letter-spacing:.04em;box-shadow:0 0 22px hsla(var(--h),95%,70%,.12);backdrop-filter:blur(16px);animation:summon 1.85s ease-in-out infinite}
+@keyframes summon{50%{transform:translateY(-2px) scale(1.018);box-shadow:0 0 38px hsla(var(--h),95%,70%,.28)}}
+.host{width:126px;height:154px;margin:0 auto 20px;position:relative;filter:drop-shadow(0 0 30px hsla(var(--h),100%,72%,.72));animation:hostBob 2.6s ease-in-out infinite}
+.host::before{content:"";position:absolute;inset:0 0 30px;background:rgba(255,255,255,.94);border-radius:55% 55% 42% 42%}.host::after{content:"";position:absolute;left:0;right:0;bottom:10px;height:44px;background:radial-gradient(circle at 24px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 63px 2px,#fff 0 24px,transparent 25px),radial-gradient(circle at 102px 2px,#fff 0 24px,transparent 25px)}
+.host .eye{top:47px;width:11px;height:15px}.host .eye.l{left:35px}.host .eye.r{right:35px}.mouth{position:absolute;z-index:3;top:80px;left:53px;width:20px;height:10px;border-bottom:4px solid #251436;border-radius:0 0 50% 50%}.bow{position:absolute;z-index:4;bottom:31px;left:42px;width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-right:21px solid hsl(var(--h) 75% 58%)}.bow::after{content:"";position:absolute;left:20px;top:-13px;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:21px solid hsl(var(--h) 75% 58%)}
+@keyframes hostBob{50%{transform:translateY(-9px) rotate(1deg)}}
+.bubble{max-width:620px;margin:0 auto 22px;padding:18px 20px;border-radius:24px;background:rgba(255,255,255,.96);color:#28183b;font-size:clamp(22px,6vw,34px);line-height:1.12;font-weight:900;box-shadow:0 18px 70px rgba(0,0,0,.34)}
+.request{display:flex;gap:9px;padding:9px;border:1px solid rgba(255,255,255,.22);border-radius:18px;background:rgba(255,255,255,.1);backdrop-filter:blur(18px)}
+input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;font-size:19px;padding:10px}input::placeholder{color:#d5c9df}.go{border:0;border-radius:14px;padding:12px 16px;background:#fff;color:#261537;font-weight:950}.hint{margin-top:12px;color:rgba(255,255,255,.56);font-size:13px}
+@media(max-width:520px){.g5,.g6{display:none}.host{width:112px;height:138px}.host .eye{top:42px}.host .eye.l{left:31px}.host .eye.r{right:31px}.mouth{top:72px;left:47px}.bow{bottom:27px;left:37px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stars"></div><div class="aura"></div>
+  <div class="ghost-layer">
+    <div class="ghost g1"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g2"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g3"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g4"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g5"><i class="eye l"></i><i class="eye r"></i></div><div class="ghost g6"><i class="eye l"></i><i class="eye r"></i></div>
+  </div>
+  <section id="front" class="screen active"><div class="center"><div class="logo">The Haunted<br>Jukebox</div><div class="kicker">The host is hovering nearby.</div><button class="summon" id="summonBtn">TAP TO SUMMON THE HOST</button></div></section>
+  <section id="entry" class="screen"><div class="center"><div class="host"><i class="eye l"></i><i class="eye r"></i><span class="mouth"></span><span class="bow"></span></div><div class="bubble" id="greeting"></div><div class="request"><input id="song" autocomplete="off" inputmode="text" placeholder="Type a song or artist…"><button class="go" id="goBtn">Ask</button></div><div class="hint">Go on. He has opinions.</div></div></section>
+</div>
+<script>
+const greetings=[
+"Darling, where have you been?","Oh good, it’s you, my love.","Angel, can you scratch my back for me?","Come here and squeeze me, sweet thing.","Oh helLO!","Hey sweet cheeks.","Kiss kiss darling, hurry up now.","I’ve been waiting so long for you, my love.","Come here… closer… closer! Oh that’s nice.","Dance with me?","Would you like to dance?","Oh there you are, my human glitterball.","Oh. Oh my goodness. At last, it’s you.","Hey bestie.","DARling, let me look at you.","Twirl for me. Oh. Oh you look GOOD.","There’s my favourite human.","You! Come here immediately.","Darling, I was beginning to think you’d forgotten me.","Look at you, swanning in here.","Sweetheart! Give us a little spin.","There you are, gorgeous creature.","My love! I’ve been haunting the doorway for ages.","Hello, trouble. Come closer.","Darling, darling, darling. Finally.","Oh good, my favourite person has arrived.","Sweet cheeks! What kept you?","Come here, you glorious thing.","Bestie! I have gossip.","There’s my sparkly little menace.","My darling! I knew you’d come back.","Look who’s finally graced me with their presence.","Angel face! I was just thinking about you.","Come on then, beautiful. Entertain me.","Oh hello, superstar.","There’s my dancing partner.","Sweetheart, you look suspiciously fabulous.","Darling! I require attention.","My love, come and keep me company.","Hey gorgeous, where have you been hiding?","There you are. I can relax now.","Kiss kiss. Right, what are we listening to?","Darling, I’ve missed your face.","Come here, my little disco comet.","You made it! I was about to send a ghost to fetch you.","Hello, beautiful human. Dance first, explanations later.","Oh darling, this room just improved.","Sweet thing! Come and choose something scandalous.","There’s my favourite living person.","Everyone behave. We have company."
+];
+let deck=[];
+function nextGreeting(){if(!deck.length){deck=[...greetings];for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}}return deck.pop()}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+document.getElementById('summonBtn').addEventListener('click',()=>{document.getElementById('greeting').textContent=nextGreeting();show('entry');setTimeout(()=>document.getElementById('song').focus(),350)});
+function requestSong(){const box=document.getElementById('song');const q=box.value.trim();if(!q)return;document.getElementById('greeting').textContent=`Ooh. ${q}. Give me a second, darling…`;document.documentElement.style.setProperty('--h',String(Math.floor(Math.random()*320)));box.blur()}
+document.getElementById('goBtn').addEventListener('click',requestSong);document.getElementById('song').addEventListener('keydown',e=>{if(e.key==='Enter')requestSong()});
+let hue=285;setInterval(()=>{hue=(hue+7)%360;document.documentElement.style.setProperty('--h',hue)},1300);
+</script>
+</body>
+</html>
