@@ -9,27 +9,24 @@ function nextGreeting(){
   }
   return greetings[deck.pop()];
 }
+
 const door=document.getElementById('door');
 const entry=document.getElementById('entry');
 const greeting=document.getElementById('greeting');
 const request=document.getElementById('request');
 const response=document.getElementById('response');
 const catalog=document.getElementById('catalog');
-let searchResults=[];
-let searchIndex=0;
-let currentFavourite=null;
-let jsonpId=0;
 
 function showEntry(){
   greeting.textContent=nextGreeting();
   response.textContent='Choose a song, or let me choose for you, darling.';
   request.value='';
-  hideCatalog();
+  hideConfirm();
   door.classList.remove('active');
   entry.classList.add('active');
   document.documentElement.style.setProperty('--ghost-hue',Math.floor(255+Math.random()*90));
 }
-function showDoor(){entry.classList.remove('active');door.classList.add('active');hideCatalog();}
+function showDoor(){entry.classList.remove('active');door.classList.add('active');hideConfirm();}
 document.getElementById('summon').addEventListener('click',showEntry);
 document.getElementById('back').addEventListener('click',showDoor);
 
@@ -60,91 +57,74 @@ const vetoReplies=['No, darling. Absolutely not. Try again.','Denied. I have sta
 function normalise(text){return text.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9' ]+/g,' ').replace(/\s+/g,' ').trim();}
 function findFavourite(q){const n=normalise(q);return favourites.find(f=>f.match.some(m=>n.includes(normalise(m))));}
 function isVeto(q){const n=normalise(q);return vetoTerms.some(term=>n.includes(normalise(term)));}
-function hideCatalog(){catalog.hidden=true;catalog.innerHTML='';searchResults=[];searchIndex=0;currentFavourite=null;}
 function escapeHtml(s=''){return s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));}
+function hideConfirm(){catalog.hidden=true;catalog.innerHTML='';}
 
-function searchApple(term,favourite=null){
-  hideCatalog();
-  currentFavourite=favourite;
+function runShortcut(text){
+  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text);
+  window.location.href=url;
+}
+
+function showConfirm(displayText,payload,isFavourite=false){
   catalog.hidden=false;
-  catalog.innerHTML='<div class="searching">Searching Apple’s music catalogue…</div>';
-  response.textContent='One moment, darling. I’m checking the records.';
-  const callback='hauntedJukeboxSearch'+(++jsonpId);
-  const script=document.createElement('script');
-  const cleanup=()=>{delete window[callback];script.remove();};
-  window[callback]=(data)=>{
-    cleanup();
-    searchResults=(data&&data.results||[]).filter(r=>r.kind==='song');
-    searchIndex=0;
-    if(!searchResults.length){catalog.innerHTML='';catalog.hidden=true;greeting.textContent='I can’t find that one, darling.';response.textContent='Try the song title and artist together.';return;}
-    renderResult();
-  };
-  script.onerror=()=>{cleanup();catalog.hidden=true;greeting.textContent='The catalogue is being temperamental.';response.textContent='Try again in a moment, my love.';};
-  script.src='https://itunes.apple.com/search?term='+encodeURIComponent(term)+'&country=gb&media=music&entity=song&limit=7&callback='+callback;
-  document.body.appendChild(script);
+  catalog.innerHTML=`<div class="track-card" style="grid-template-columns:1fr;text-align:center">
+    <div><div class="track-title">${escapeHtml(displayText)}</div><div class="track-artist">Send this request to Apple Music?</div></div>
+    <div class="track-actions"><button class="yes-track" id="yesTrack" type="button">✓ THAT’S IT</button><button class="no-track" id="noTrack" type="button">✕ CHANGE IT</button></div>
+  </div>`;
+  document.getElementById('yesTrack').addEventListener('click',()=>{
+    if(isFavourite) greeting.textContent='MY FAVOURITE SONG! Marry me?';
+    else greeting.textContent='Fine. I’ll allow it.';
+    response.textContent=`Sending “${displayText}” to Apple Music…`;
+    setTimeout(()=>runShortcut(payload),180);
+  });
+  document.getElementById('noTrack').addEventListener('click',()=>{
+    hideConfirm();
+    greeting.textContent='Very well. Try again, darling.';
+    response.textContent='Type the song title and artist if there’s any ambiguity.';
+    request.focus();
+  });
 }
 
-function renderResult(){
-  const track=searchResults[searchIndex];
-  if(!track){catalog.hidden=true;greeting.textContent='None of those were right?';response.textContent='Try a more specific title or artist.';return;}
-  const art=(track.artworkUrl100||'').replace('100x100','300x300');
-  const title=escapeHtml(track.trackName||'Unknown track');
-  const artist=escapeHtml(track.artistName||'Unknown artist');
-  const album=escapeHtml(track.collectionName||'');
-  const link=track.trackViewUrl||track.collectionViewUrl||'#';
-  catalog.hidden=false;
-  catalog.innerHTML=`<div class="track-card">
-    <img class="track-art" src="${art}" alt="">
-    <div><div class="track-title">${title}</div><div class="track-artist">${artist}</div><div class="track-album">${album}</div></div>
-    <div class="track-actions">
-      <button class="yes-track" id="yesTrack" type="button">✓ THAT’S IT</button>
-      <button class="no-track" id="noTrack" type="button">✕ NOT THAT</button>
-      <a class="apple-link" href="${link}" target="_blank" rel="noopener">OPEN IN APPLE MUSIC</a>
-    </div>
-  </div><div class="catalog-note">Artwork and catalogue information provided by Apple’s iTunes Search service.</div>`;
-  document.getElementById('yesTrack').addEventListener('click',()=>approveTrack(track));
-  document.getElementById('noTrack').addEventListener('click',()=>{searchIndex++;renderResult();});
-  if(currentFavourite){greeting.textContent='MY FAVOURITE SONG! Marry me?';response.textContent='Please tell me this is the right one.';document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));}
-  else{greeting.textContent='This one?';response.textContent='Confirm it before I let it anywhere near the queue.';}
-}
-
-function approveTrack(track){
-  const payload=`${track.trackName} — ${track.artistName}`;
-  if(currentFavourite){greeting.textContent='MY FAVOURITE SONG! Marry me?';}
-  else{greeting.textContent='Fine. I’ll allow it.';}
-  response.textContent=`${payload} is approved. Sending it to Apple Music…`;
-  document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(Math.random()*360)));
-  const shortcut='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(payload);
-  setTimeout(()=>{window.location.href=shortcut;},180);
-}
-
-function judgeAndSearch(q){
+function judgeRequest(q){
+  hideConfirm();
   if(isVeto(q)){
-    hideCatalog();
     greeting.textContent=vetoReplies[Math.floor(Math.random()*vetoReplies.length)];
     response.textContent=`“${q}” will not be entering this jukebox.`;
     document.documentElement.style.setProperty('--ghost-hue','350');
     return;
   }
   const favourite=findFavourite(q);
-  searchApple(favourite?favourite.search:q,favourite||null);
+  if(favourite){
+    greeting.textContent='MY FAVOURITE SONG! Marry me?';
+    response.textContent='Please say yes. To the song, obviously. Unless…';
+    document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
+    showConfirm(favourite.label,favourite.search,true);
+    return;
+  }
+  greeting.textContent='This one, darling?';
+  response.textContent='I’ll hand your exact request to Apple Music.';
+  showConfirm(q,q,false);
 }
 
 document.getElementById('requestForm').addEventListener('submit',e=>{
   e.preventDefault();
   const q=request.value.trim();
   if(!q){response.textContent='You do actually have to ask for a song, darling.';return;}
-  judgeAndSearch(q);
+  judgeRequest(q);
   request.blur();
 });
+
 document.getElementById('youChoose').addEventListener('click',()=>{
   const f=favourites[Math.floor(Math.random()*favourites.length)];
   request.value='';
+  hideConfirm();
   greeting.textContent='Leave it to me, darling.';
-  response.textContent='I know exactly what this room needs.';
-  searchApple(f.search,f);
+  response.textContent=`I choose ${f.label}. Naturally.`;
+  document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
+  setTimeout(()=>runShortcut(f.search),650);
 });
-request.addEventListener('input',()=>{if(request.value.trim()){response.textContent='Go on…';hideCatalog();}});
+
+request.addEventListener('input',()=>{if(request.value.trim()){response.textContent='Go on…';hideConfirm();}});
 let hue=282,beat=false;
 setInterval(()=>{beat=!beat;document.documentElement.style.setProperty('--beat',beat?'1.35':'.75');},460);
 setInterval(()=>{hue=(hue+9)%360;if(door.classList.contains('active')) document.documentElement.style.setProperty('--ghost-hue',hue);},820);
