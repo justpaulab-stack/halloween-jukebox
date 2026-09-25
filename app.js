@@ -60,36 +60,9 @@ function isVeto(q){const n=normalise(q);return vetoTerms.some(term=>n.includes(n
 function escapeHtml(s=''){return s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));}
 function hideConfirm(){catalog.hidden=true;catalog.innerHTML='';}
 
-async function copyRequest(text){
-  try{
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  }catch(e){}
-  const box=document.createElement('textarea');
-  box.value=text;
-  box.setAttribute('readonly','');
-  box.style.position='fixed';
-  box.style.opacity='0';
-  document.body.appendChild(box);
-  box.select();
-  box.setSelectionRange(0,box.value.length);
-  let copied=false;
-  try{copied=document.execCommand('copy');}catch(e){}
-  box.remove();
-  return copied;
-}
-
-async function runShortcut(text){
-  const copied=await copyRequest(text);
-  if(!copied){
-    greeting.textContent='Darling, the clipboard is refusing to cooperate.';
-    response.textContent='Tap the request again and I’ll have another go.';
-    return;
-  }
+function runShortcut(text){
   response.textContent=`Sending “${text}” to Haunted Jukebox Queue…`;
-  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play');
+  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text);
   setTimeout(()=>{window.location.href=url;},80);
 }
 
