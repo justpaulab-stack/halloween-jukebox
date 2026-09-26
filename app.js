@@ -62,7 +62,8 @@ function hideConfirm(){catalog.hidden=true;catalog.innerHTML='';}
 
 function runShortcut(text){
   response.textContent=`Sending “${text}” to Haunted Jukebox Queue…`;
-  const url='shortcuts://run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text);
+  const callback=window.location.origin+window.location.pathname+'?ready=1';
+  const url='shortcuts://x-callback-url/run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text)+'&x-success='+encodeURIComponent(callback);
   setTimeout(()=>{window.location.href=url;},80);
 }
 
