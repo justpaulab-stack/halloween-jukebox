@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#fff3c8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Easter Jukebox">
+<title>The Easter Jukebox</title>
+<link rel="stylesheet" href="easter.css?v=1">
+</head>
+<body>
+<div class="app">
+  <div class="petals" aria-hidden="true"></div>
+
+  <section id="door" class="screen active" aria-label="Easter Jukebox entrance">
+    <div class="doorstage">
+      <div class="jukebox" aria-label="A glowing springtime Easter jukebox">
+        <div class="ears" aria-hidden="true"><span></span><span></span></div>
+        <div class="juke-arch">
+          <div class="juke-small">Springtime selector</div>
+          <div class="logo">The Easter<br>Jukebox</div>
+          <div class="egg-window" aria-hidden="true"><div class="egg-mark">♪</div></div>
+        </div>
+        <div class="selector-panel">
+          <div class="chrome-pill">Bunny booth • EGG 01</div>
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="kicker">Your host is hopping nearby.</div>
+          <button id="summon" class="summon" type="button">Tap to hatch the host</button>
+        </div>
+        <div class="grass" aria-hidden="true">✿ ✿ ✿ ✿ ✿ ✿ ✿</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="entry" class="screen" aria-label="Song request">
+    <div class="center">
+      <div class="host" aria-hidden="true">
+        <div class="bunny-ear left"></div><div class="bunny-ear right"></div>
+        <div class="face"><i class="eye l"></i><i class="eye r"></i><span class="nose"></span><span class="smile"></span></div>
+        <div class="bow"></div>
+      </div>
+      <div class="bubble" id="greeting">Hiya chick.</div>
+      <form id="requestForm" class="inputwrap">
+        <input id="request" autocomplete="off" autocapitalize="words" enterkeyhint="go" placeholder="Type a song or artist…" aria-label="Song request">
+        <button class="go" type="submit">Ask</button>
+      </form>
+      <div class="pickrow"><button id="youChoose" class="choose" type="button">SURPRISE ME</button></div>
+      <div id="response" class="response">Pick us a tune, hen.</div>
+      <div id="catalog" class="catalog" hidden></div>
+      <button id="back" class="back" type="button">Back to the eggbox</button>
+    </div>
+  </section>
+
+  <div class="footer">EASTER JUKEBOX • SPRING PARTY PROTOTYPE</div>
+</div>
+<script src="easter.js?v=1"></script>
+</body>
+</html>
