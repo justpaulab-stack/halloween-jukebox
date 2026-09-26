@@ -30,6 +30,23 @@ function showDoor(){entry.classList.remove('active');door.classList.add('active'
 document.getElementById('summon').addEventListener('click',showEntry);
 document.getElementById('back').addEventListener('click',showDoor);
 
+function showReturnJudgement(){
+  const params=new URLSearchParams(window.location.search);
+  if(params.get('ready')!=='1') return;
+  const verdict=params.get('verdict')||'Fine. I’ll allow it.';
+  const song=params.get('song')||'Your song';
+  request.value='';
+  hideConfirm();
+  door.classList.remove('active');
+  entry.classList.add('active');
+  greeting.textContent=verdict;
+  response.textContent=`“${song}” has joined the Haunted Jukebox Queue.`;
+  document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
+  history.replaceState({},'',window.location.pathname);
+  setTimeout(showDoor,3000);
+}
+showReturnJudgement();
+
 const vetoTerms=['fleetwood mac','simply red','miley cyrus','michael bolton','the birdie song','birdie song','agadoo','power ballad','total eclipse of the heart','i don\'t want to miss a thing','every rose has its thorn','nothing\'s gonna stop us now','open arms','faithfully','against all odds','keep on loving you','when i see you smile','more than words','to be with you','home sweet home'];
 const favourites=[
   {label:'Monster Mash — Bobby Pickett',search:'Monster Mash Bobby Pickett',match:['monster mash','bobby pickett']},
@@ -60,9 +77,9 @@ function isVeto(q){const n=normalise(q);return vetoTerms.some(term=>n.includes(n
 function escapeHtml(s=''){return s.replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));}
 function hideConfirm(){catalog.hidden=true;catalog.innerHTML='';}
 
-function runShortcut(text){
-  response.textContent=`Sending “${text}” to Haunted Jukebox Queue…`;
-  const callback=window.location.origin+window.location.pathname+'?ready=1';
+function runShortcut(text,verdict='Fine. I’ll allow it.',displayText=text){
+  response.textContent=`Sending “${displayText}” to Haunted Jukebox Queue…`;
+  const callback=window.location.origin+window.location.pathname+'?ready=1&verdict='+encodeURIComponent(verdict)+'&song='+encodeURIComponent(displayText);
   const url='shortcuts://x-callback-url/run-shortcut?name='+encodeURIComponent('Haunted Jukebox Play')+'&input=text&text='+encodeURIComponent(text)+'&x-success='+encodeURIComponent(callback);
   setTimeout(()=>{window.location.href=url;},80);
 }
@@ -74,10 +91,10 @@ function showConfirm(displayText,payload,isFavourite=false){
     <div class="track-actions"><button class="yes-track" id="yesTrack" type="button">✓ THAT’S IT</button><button class="no-track" id="noTrack" type="button">✕ CHANGE IT</button></div>
   </div>`;
   document.getElementById('yesTrack').addEventListener('click',()=>{
-    if(isFavourite) greeting.textContent='MY FAVOURITE SONG! Marry me?';
-    else greeting.textContent='Fine. I’ll allow it.';
+    const verdict=isFavourite?'MY FAVOURITE SONG! Marry me?':'Fine. I’ll allow it.';
+    greeting.textContent=verdict;
     response.textContent=`Preparing “${displayText}”…`;
-    runShortcut(payload);
+    runShortcut(payload,verdict,displayText);
   });
   document.getElementById('noTrack').addEventListener('click',()=>{
     hideConfirm();
@@ -120,10 +137,11 @@ document.getElementById('youChoose').addEventListener('click',()=>{
   const f=favourites[Math.floor(Math.random()*favourites.length)];
   request.value='';
   hideConfirm();
-  greeting.textContent='Leave it to me, darling.';
+  const verdict='Leave it to me, darling.';
+  greeting.textContent=verdict;
   response.textContent=`I choose ${f.label}. Naturally.`;
   document.documentElement.style.setProperty('--ghost-hue',String(Math.floor(285+Math.random()*65)));
-  runShortcut(f.search);
+  runShortcut(f.search,verdict,f.label);
 });
 
 request.addEventListener('input',()=>{if(request.value.trim()){response.textContent='Go on…';hideConfirm();}});
