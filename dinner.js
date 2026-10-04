@@ -203,6 +203,21 @@ const fleetwood=[
   "go your own way","dreams fleetwood","the chain","rhiannon"
 ];
 
+const hardVeto=[
+  "simply red","mick hucknall","holding back the years","stars simply red",
+  "r&b","r and b","rhythm and blues"
+];
+
+const hardVetoReplies=[
+  "Hell no. The Mistress has drawn a line and I intend to remain employed.",
+  "Absolutely not. That is on the forbidden list.",
+  "No, mate. Sorry. Ahem. Madam has issued standing orders.",
+  "I value my position far too highly for that.",
+  "More than my job's worth. Choose again.",
+  "That request has been denied at household level.",
+  "I have sixty years in service. I know when not to argue with the Mistress."
+];
+
 const fleetwoodReplies=[
   "The Mistress of the house has given orders. Absolutely not.",
   "I value my position. That would be gross misconduct.",
@@ -326,6 +341,14 @@ function judge(q){
     const line=pick(fleetwoodReplies);
     greeting.textContent=line;
     response.textContent="Request refused on direct instructions from Paula.";
+    document.body.classList.remove("scandal");void document.body.offsetWidth;document.body.classList.add("scandal");
+    return;
+  }
+
+  if(hasAny(q,hardVeto)){
+    const line=pick(hardVetoReplies);
+    greeting.textContent=line;
+    response.textContent="HELL NO. Forbidden by order of the Mistress of the house.";
     document.body.classList.remove("scandal");void document.body.offsetWidth;document.body.classList.add("scandal");
     return;
   }
