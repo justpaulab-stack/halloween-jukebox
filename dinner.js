@@ -45,7 +45,10 @@ const yardbirdsJoy=[
   "Heart Full of Soul? Oh, mate. Sorry. Forgive me. That one's got me.",
   "The Yardbirds! Someone pour me one. The decent stuff. I am overcome.",
   "One for me? Don't mind if I do, Guv. ...Ahem. Thank you. Most kind.",
-  "Blimey. The Yardbirds. Ahem. My apologies. You have made an old man very happy."
+  "Blimey. The Yardbirds. Ahem. My apologies. You have made an old man very happy.",
+  "The Yardbirds? Move that chair. I haven't done this since Hammersmith.",
+  "For Your Love? Right. Somebody mind the tray.",
+  "Heart Full of Soul? Oh, behave. I'm eighty-five, not dead."
 ];
 
 const paulaModern=["harry styles","lizzo"];
