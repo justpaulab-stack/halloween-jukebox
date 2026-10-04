@@ -12,7 +12,12 @@ const greetings=[
   "Eighty-five, sixty years in service, and apparently still the only person who knows where the corkscrew lives.",
   "My chair is the leather one by the fire. Cooper is aware of this. Cooper simply chooses not to respect it.",
   "That dog is not in my chair. He is temporarily occupying it under protest.",
-  "Cooper, out of my chair. ...Very well. Shift over."
+  "Cooper, out of my chair. ...Very well. Shift over.",
+  "Vol-au-vents? Now you're talking. Proper entertaining, that.",
+  "Fanny Cradock's mincemeat omelette. Christmas 1975. Magnificent. People had standards then.",
+  "Petit fours, glacé icing, a decent vol-au-vent... that's a dinner party.",
+  "They laughed at the mincemeat omelette. Fools. Fanny knew what she was doing.",
+  "If there's a vol-au-vent going, don't forget your old butler."
 ];
 
 const pre79=[
