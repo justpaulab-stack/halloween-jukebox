@@ -6,7 +6,8 @@ const greetings=[
   "Coat on the left. Glass on the right. Musical decisions in the middle.",
   "Do come in. The candles are lit and somebody has already asked for Ed Sheeran.",
   "Your glass is over there. I have labelled nothing. This is a dinner party.",
-  "Welcome. I shall take your coat and reserve judgement until you choose a song."
+  "Welcome. I shall take your coat and reserve judgement until you choose a song.",
+  "Reg Dyer. Sixty years in service. Your coat, please."
 ];
 
 const pre79=[
@@ -56,7 +57,7 @@ const fleetwoodReplies=[
   "I value my position. That would be gross misconduct.",
   "Mrs Brown has been painfully clear on this point. I am not losing my employment over Fleetwood Mac.",
   "Good heavens. No. Paula would drop dead and I would be left explaining Rumours to the paramedics.",
-  "I have served this household faithfully. I shall not throw it all away for The Chain.",
+  "I have sixty years in service behind me. I shall not throw it all away for The Chain.",
   "The Mistress has spoken. Fleetwood Mac is forbidden within these walls.",
   "More than my job's worth, mate.",
   "Do me a favour. I mean... forgive me. The Mistress has issued instructions.",
