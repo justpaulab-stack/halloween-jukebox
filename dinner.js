@@ -9,7 +9,10 @@ const greetings=[
   "Welcome. I shall take your coat and reserve judgement until you choose a song.",
   "Reg Dyer. Eighty-five. Sixty years in service. Your coat, please.",
   "Retire? I did try it once. Dreadful business. Nobody knew where anything was.",
-  "Eighty-five, sixty years in service, and apparently still the only person who knows where the corkscrew lives."
+  "Eighty-five, sixty years in service, and apparently still the only person who knows where the corkscrew lives.",
+  "My chair is the leather one by the fire. Cooper is aware of this. Cooper simply chooses not to respect it.",
+  "That dog is not in my chair. He is temporarily occupying it under protest.",
+  "Cooper, out of my chair. ...Very well. Shift over."
 ];
 
 const pre79=[
