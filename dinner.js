@@ -163,6 +163,36 @@ const modernRubbishReplies=[
   "Fine. Put it on. Wake me when we get back to the seventies."
 ];
 
+const paulaApprovedGrumbles=[
+  "The Mistress has approved it, so I shall say no more. Much.",
+  "Paula put it on the list. Apparently that settles the matter.",
+  "Approved by the Mistress. Modern rubbish, naturally, but approved.",
+  "It's on Paula's playlist. I know my place.",
+  "Very well. The Mistress has spoken. I shall grumble internally.",
+  "Paula says it's allowed. I remain professionally unconvinced."
+];
+
+const approvedStorageKey="regDyerPaulaApproved";
+function approvedSongs(){
+  try{return JSON.parse(localStorage.getItem(approvedStorageKey)||"[]");}
+  catch{return [];}
+}
+function rememberApprovedSong(song){
+  const songs=approvedSongs();
+  const n=norm(song);
+  if(!songs.some(s=>norm(s)===n)){
+    songs.push(song);
+    localStorage.setItem(approvedStorageKey,JSON.stringify(songs.slice(-200)));
+  }
+}
+function isPreviouslyApproved(q){
+  const n=norm(q);
+  return approvedSongs().some(s=>{
+    const a=norm(s);
+    return a===n || a.includes(n) || n.includes(a);
+  });
+}
+
 const paulaModern=["harry styles","lizzo"];
 const fleetwood=[
   "fleetwood mac","stevie nicks","lindsey buckingham","rumours",
@@ -255,6 +285,7 @@ function runShortcut(text,verdict,displayText){
   const callback=window.location.origin+window.location.pathname+"?ready=1&verdict="+encodeURIComponent(verdict)+"&song="+encodeURIComponent(displayText);
   const url="shortcuts://x-callback-url/run-shortcut?name="+encodeURIComponent("Dinner Party Jukebox Play")+
     "&input=text&text="+encodeURIComponent(text)+"&x-success="+encodeURIComponent(callback);
+  rememberApprovedSong(displayText);
   setTimeout(()=>{window.location.href=url;},120);
 }
 
@@ -286,7 +317,11 @@ function judge(q){
   }
 
   let verdict;
-  if(hasAny(q,yardbirds)){
+  if(isPreviouslyApproved(q)){
+    verdict=pick(paulaApprovedGrumbles);
+    greeting.textContent=verdict;
+    response.textContent="Already approved by Paula. Reg is muttering while he pours the drinks.";
+  } else if(hasAny(q,yardbirds)){
     verdict=pick(yardbirdsJoy);
     greeting.textContent=verdict;
     response.textContent="The butler has briefly forgotten the silver service and is emotionally back at Hammersmith Odeon in 1965.";
