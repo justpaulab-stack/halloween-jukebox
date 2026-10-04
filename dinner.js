@@ -21,7 +21,9 @@ const pre79=[
   {label:"Dancing Queen — ABBA",search:"Dancing Queen ABBA"},
   {label:"Signed, Sealed, Delivered — Stevie Wonder",search:"Signed Sealed Delivered Stevie Wonder"},
   {label:"Respect — Aretha Franklin",search:"Respect Aretha Franklin"},
-  {label:"Mr. Blue Sky — Electric Light Orchestra",search:"Mr Blue Sky Electric Light Orchestra"}
+  {label:"Mr. Blue Sky — Electric Light Orchestra",search:"Mr Blue Sky Electric Light Orchestra"},
+  {label:"For Your Love — The Yardbirds",search:"For Your Love The Yardbirds"},
+  {label:"Heart Full of Soul — The Yardbirds",search:"Heart Full of Soul The Yardbirds"}
 ];
 
 const oldSchoolTerms=[
@@ -30,6 +32,16 @@ const oldSchoolTerms=[
   "diana ross","supremes","temptations","bee gees","elton john","queen","blondie",
   "sylvester","rolling stones","beatles","kinks","dusty springfield","nina simone",
   "frank sinatra","ella fitzgerald","gladys knight","four tops","t rex","t. rex"
+];
+
+const yardbirds=["yardbirds","the yardbirds","for your love","heart full of soul","shapes of things","over under sideways down"];
+const yardbirdsJoy=[
+  "The Yardbirds? Oh, you beauty. Hammersmith Odeon, 1965. I could kiss you.",
+  "For Your Love? Good Lord. Give me that tray. No, actually, take the tray. I need a minute.",
+  "The Yardbirds. Now you're talking. Hammersmith, 1965... best night of my life. Nearly.",
+  "Heart Full of Soul? Oh, mate. Sorry. Forgive me. That one's got me.",
+  "The Yardbirds! Someone pour me one. The decent stuff. I am overcome.",
+  "Blimey. The Yardbirds. Ahem. My apologies. You have made an old man very happy."
 ];
 
 const paulaModern=["harry styles","lizzo"];
@@ -152,7 +164,11 @@ function judge(q){
   }
 
   let verdict;
-  if(hasAny(q,paulaModern)){
+  if(hasAny(q,yardbirds)){
+    verdict=pick(yardbirdsJoy);
+    greeting.textContent=verdict;
+    response.textContent="The butler has briefly forgotten the silver service and is emotionally back at Hammersmith Odeon in 1965.";
+  } else if(hasAny(q,paulaModern)){
     verdict=pick(modernTeasing);
     greeting.textContent=verdict;
     response.textContent="Playable. The butler is merely making a point.";
@@ -177,14 +193,16 @@ document.getElementById("requestForm").addEventListener("submit",e=>{
 
 document.getElementById("youChoose").addEventListener("click",()=>{
   const f=pick(pre79);
-  const verdict=pick([
+  const verdict=hasAny(f.search,yardbirds) ? pick(yardbirdsJoy) : pick([
     "Leave it with me. I remember when records had standards.",
     "Allow me. Something from before 1979, naturally.",
     "Very good. I shall rescue the evening.",
     "My choice? At last. Stand back."
   ]);
   greeting.textContent=verdict;
-  response.textContent=`I choose ${f.label}.`;
+  response.textContent=hasAny(f.search,yardbirds)
+    ? "He's chosen The Yardbirds and is now emotionally unavailable for normal duties."
+    : `I choose ${f.label}.`;
   runShortcut(f.search,verdict,f.label);
 });
 
