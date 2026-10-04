@@ -125,6 +125,28 @@ const sixtiesSwoons=[
   "Oh, I remember this lot. Don't ask me what year. I remember the shoes."
 ];
 
+const seventiesGeneral=[
+  "vinegar joe","elkie brooks","faces","rod stewart","roxy music","mott the hoople",
+  "slade","sweet","the sweet","t rex","t. rex","electric light orchestra","elo",
+  "david bowie","queen","10cc","thin lizzy","status quo","free","bad company"
+];
+
+const vinegarJoeSwoons=[
+  "Vinegar Joe? Oh, now you're showing off. Elkie Brooks in that leather skirt... magnificent.",
+  "Good Lord. Vinegar Joe. Elkie Brooks. That leather skirt. I may need to sit down.",
+  "Elkie Brooks? Leather skirt? Don't be cruel to an old man.",
+  "Vinegar Joe! Blimey. Sorry. Ahem. That takes me back.",
+  "Now that's seventies done properly. Elkie Brooks could command a room, couldn't she?"
+];
+
+const seventiesApprovals=[
+  "Seventies? Very respectable. Carry on.",
+  "Now that's a decade I can still work with.",
+  "Good choice. The seventies had plenty of backbone.",
+  "Yes, very good. Before everything got too shiny.",
+  "Seventies British? Strong form. I'll allow myself another splash of Jura."
+];
+
 const paulaModern=["harry styles","lizzo"];
 const fleetwood=[
   "fleetwood mac","stevie nicks","lindsey buckingham","rumours",
@@ -252,6 +274,10 @@ function judge(q){
     verdict=pick(yardbirdsJoy);
     greeting.textContent=verdict;
     response.textContent="The butler has briefly forgotten the silver service and is emotionally back at Hammersmith Odeon in 1965.";
+  } else if(hasAny(q,["vinegar joe","elkie brooks"])){
+    verdict=pick(vinegarJoeSwoons);
+    greeting.textContent=verdict;
+    response.textContent="Reg has become visibly distracted by memories of Elkie Brooks.";
   } else if(hasAny(q,sixtiesLondon)){
     verdict=pick(londonSixtiesSwoons);
     greeting.textContent=verdict;
@@ -264,6 +290,10 @@ function judge(q){
     verdict=pick(sixtiesSwoons);
     greeting.textContent=verdict;
     response.textContent="Reg approves warmly. The decade alone has bought you considerable goodwill.";
+  } else if(hasAny(q,seventiesGeneral)){
+    verdict=pick(seventiesApprovals);
+    greeting.textContent=verdict;
+    response.textContent="The seventies remain very much within Reg's approved service window.";
   } else if(hasAny(q,paulaModern)){
     verdict=pick(modernTeasing);
     greeting.textContent=verdict;
