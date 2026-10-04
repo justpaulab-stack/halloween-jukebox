@@ -208,6 +208,18 @@ const hardVeto=[
   "r&b","r and b","rhythm and blues"
 ];
 
+const mistressStorageKey="regDyerMistressHellNo";
+function getMistressVetoes(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(mistressStorageKey)||"[]");
+    return Array.isArray(saved)?saved:[];
+  }catch(e){ return []; }
+}
+function saveMistressVetoes(list){
+  localStorage.setItem(mistressStorageKey,JSON.stringify(list.slice(-100)));
+}
+function allHardVetoes(){ return [...hardVeto,...getMistressVetoes()]; }
+
 const hardVetoReplies=[
   "Hell no. The Mistress has drawn a line and I intend to remain employed.",
   "Absolutely not. That is on the forbidden list.",
@@ -307,6 +319,55 @@ function showEntry(){
 document.getElementById("summon").addEventListener("click",showEntry);
 document.getElementById("back").addEventListener("click",showDoor);
 
+const mistressPanel=document.getElementById("mistressPanel");
+const mistressVeto=document.getElementById("mistressVeto");
+const mistressNote=document.getElementById("mistressNote");
+const mistressList=document.getElementById("mistressList");
+let mistressTapCount=0;
+let mistressTapTimer=null;
+
+function renderMistressList(){
+  const list=getMistressVetoes();
+  mistressList.innerHTML=list.length
+    ? '<div class="mistress-list-title">Tonight\'s additional bans</div>'+list.map(x=>'<div class="mistress-ban">⛔ '+escapeHtml(x)+'</div>').join('')
+    : '<div class="mistress-empty">No extra bans yet. Reg remains suspicious.</div>';
+}
+function openMistressPanel(){
+  mistressPanel.hidden=false;
+  mistressVeto.value="";
+  mistressNote.textContent="Standing orders apply immediately on this device.";
+  renderMistressList();
+  setTimeout(()=>mistressVeto.focus(),80);
+}
+function closeMistressPanel(){ mistressPanel.hidden=true; }
+
+document.getElementById("mistressTrigger").addEventListener("click",()=>{
+  mistressTapCount++;
+  clearTimeout(mistressTapTimer);
+  mistressTapTimer=setTimeout(()=>{mistressTapCount=0;},1800);
+  if(mistressTapCount>=5){
+    mistressTapCount=0;
+    openMistressPanel();
+  }
+});
+document.getElementById("mistressClose").addEventListener("click",closeMistressPanel);
+document.getElementById("mistressAdd").addEventListener("click",()=>{
+  const term=mistressVeto.value.trim();
+  if(!term) return;
+  const list=getMistressVetoes();
+  if(!list.some(x=>norm(x)===norm(term))){
+    list.push(term);
+    saveMistressVetoes(list);
+  }
+  mistressNote.textContent=`“${term}” is now HELL NO by order of the Mistress.`;
+  mistressVeto.value="";
+  renderMistressList();
+});
+mistressVeto.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ e.preventDefault(); document.getElementById("mistressAdd").click(); }
+});
+mistressPanel.addEventListener("click",e=>{ if(e.target===mistressPanel) closeMistressPanel(); });
+
 function runShortcut(text,verdict,displayText){
   hideConfirm();
   greeting.textContent="Very good. I'll see to it.";
@@ -345,7 +406,7 @@ function judge(q){
     return;
   }
 
-  if(hasAny(q,hardVeto)){
+  if(hasAny(q,allHardVetoes())){
     const line=pick(hardVetoReplies);
     greeting.textContent=line;
     response.textContent="HELL NO. Forbidden by order of the Mistress of the house.";
