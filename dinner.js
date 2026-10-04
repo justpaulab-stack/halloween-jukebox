@@ -48,7 +48,10 @@ const yardbirdsJoy=[
   "Blimey. The Yardbirds. Ahem. My apologies. You have made an old man very happy.",
   "The Yardbirds? Move that chair. I haven't done this since Hammersmith.",
   "For Your Love? Right. Somebody mind the tray.",
-  "Heart Full of Soul? Oh, behave. I'm eighty-five, not dead."
+  "Heart Full of Soul? Oh, behave. I'm eighty-five, not dead.",
+  "Get that glitter ball on, Guv. Proper job. ...Ahem. Most atmospheric.",
+  "The glitter ball? Leave it running. I find it improves the room.",
+  "Somebody put the glitter ball on. If we're doing this, we're doing it properly."
 ];
 
 const paulaModern=["harry styles","lizzo"];
