@@ -7,7 +7,9 @@ const greetings=[
   "Do come in. The candles are lit and somebody has already asked for Ed Sheeran.",
   "Your glass is over there. I have labelled nothing. This is a dinner party.",
   "Welcome. I shall take your coat and reserve judgement until you choose a song.",
-  "Reg Dyer. Sixty years in service. Your coat, please."
+  "Reg Dyer. Eighty-five. Sixty years in service. Your coat, please.",
+  "Retire? I did try it once. Dreadful business. Nobody knew where anything was.",
+  "Eighty-five, sixty years in service, and apparently still the only person who knows where the corkscrew lives."
 ];
 
 const pre79=[
