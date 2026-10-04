@@ -41,6 +41,7 @@ const yardbirdsJoy=[
   "The Yardbirds. Now you're talking. Hammersmith, 1965... best night of my life. Nearly.",
   "Heart Full of Soul? Oh, mate. Sorry. Forgive me. That one's got me.",
   "The Yardbirds! Someone pour me one. The decent stuff. I am overcome.",
+  "One for me? Don't mind if I do, Guv. ...Ahem. Thank you. Most kind.",
   "Blimey. The Yardbirds. Ahem. My apologies. You have made an old man very happy."
 ];
 
