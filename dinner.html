@@ -33,7 +33,7 @@
       <div class="host" aria-hidden="true">
         <div class="head"><i class="eye l"></i><i class="eye r"></i><i class="smile"></i></div>
         <div class="body"><i class="bow"></i></div>
-        <div class="tray">🍷</div>
+        <div class="tray" id="mistressTrigger" aria-label="Reg's drinks tray">🍷</div>
       </div>
       <div class="bubble" id="greeting">Coat, darling. Drink?</div>
       <form id="requestForm" class="inputwrap">
@@ -44,6 +44,20 @@
       <div id="response" class="response">Choose something quickly. Paula has opened Apple Music.</div>
       <div id="catalog" class="catalog" hidden></div>
       <button id="back" class="back" type="button">Back to the hall</button>
+      <div id="mistressPanel" class="mistress-panel" hidden>
+        <div class="mistress-card" role="dialog" aria-modal="true" aria-labelledby="mistressTitle">
+          <div class="mistress-kicker">HOUSEHOLD ORDERS</div>
+          <div class="mistress-title" id="mistressTitle">Mistress Control</div>
+          <div class="mistress-copy">Add an artist or song to Reg's HELL NO list.</div>
+          <div class="mistress-row">
+            <input id="mistressVeto" autocomplete="off" autocapitalize="words" placeholder="Artist or song…" aria-label="Artist or song to ban">
+            <button id="mistressAdd" type="button">BAN IT</button>
+          </div>
+          <div id="mistressNote" class="mistress-note">Standing orders apply immediately on this device.</div>
+          <div id="mistressList" class="mistress-list"></div>
+          <button id="mistressClose" class="mistress-close" type="button">Return to dinner</button>
+        </div>
+      </div>
     </div>
   </section>
   <div class="footer">DINNER PARTY JUKEBOX • COATS, DRINKS & MUSICAL JUDGEMENT</div>
