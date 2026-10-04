@@ -13,6 +13,11 @@ const greetings=[
   "My chair is the leather one by the fire. Cooper is aware of this. Cooper simply chooses not to respect it.",
   "That dog is not in my chair. He is temporarily occupying it under protest.",
   "Cooper, out of my chair. ...Very well. Shift over.",
+  "Do have a vol-au-vent. Proper entertaining food. None of your little smears on plates.",
+  "Fanny Cradock knew how to entertain. Christmas 1975. That mincemeat omelette... magnificent.",
+  "I still say the vol-au-vent went out of fashion through sheer ingratitude.",
+  "Glacé cherries have their place, madam. I will hear no argument.",
+  "A canapé should require a small paper napkin and a degree of concentration.",
   "Vol-au-vents? Now you're talking. Proper entertaining, that.",
   "Fanny Cradock's mincemeat omelette. Christmas 1975. Magnificent. People had standards then.",
   "Petit fours, glacé icing, a decent vol-au-vent... that's a dinner party.",
@@ -106,7 +111,10 @@ const neutralReplies=[
   "Very well. I have heard worse at otherwise respectable tables.",
   "I'll allow it. Your glass is getting low, by the way.",
   "Certainly. I shall add it and pretend I understand the attraction.",
-  "Into the queue. I make no promises about my expression."
+  "Into the queue. I make no promises about my expression.",
+  "Very well. Help yourself to a vol-au-vent while I deal with this.",
+  "Accepted. Now, have you tried the vol-au-vents? They're proper ones.",
+  "Certainly. Fanny Cradock would have expected something more festive, but we shall proceed."
 ];
 
 const delayWarnings=[
