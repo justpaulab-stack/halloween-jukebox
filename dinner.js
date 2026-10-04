@@ -218,13 +218,23 @@ const fleetwoodReplies=[
   "Certainly not. The last time their name was mentioned, the Mistress looked at me in a manner I shall never forget."
 ];
 
+const loyaltyLines=[
+  "Madam's taste is not under discussion.",
+  "You may disagree with the selection. You may not be rude about the Mistress.",
+  "Paula chose it. That is sufficient.",
+  "I complain because I am family. You are a guest.",
+  "Mr and Mrs Brown have been very good to me. Mind your tone.",
+  "I have my opinions. My loyalty is not one of them."
+];
+
 const modernTeasing=[
   "Very good. Paula has got to you, I see.",
   "I shall add it. I will also top up everyone else's glass.",
   "Of course. Paula will be delighted. The rest of us shall conduct ourselves professionally.",
   "Into the queue it goes. I blame Paula.",
   "Yes, yes. I know. Paula likes this one. I have made my peace with it.",
-  "Someone fetch the ice. Paula has chosen again."
+  "Someone fetch the ice. Paula has chosen again.",
+  "Modern rubbish, certainly. Madam's modern rubbish, however, and that makes it respectable enough."
 ];
 
 const oldSchoolApprovals=[
