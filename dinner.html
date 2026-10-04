@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#201711">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dinner Party Jukebox">
+<title>The Dinner Party Jukebox</title>
+<link rel="stylesheet" href="dinner.css?v=1">
+</head>
+<body>
+<div class="app">
+  <div class="warmth w1"></div><div class="warmth w2"></div>
+  <section id="door" class="screen active" aria-label="Dinner Party Jukebox entrance">
+    <main class="cabinet">
+      <div class="top">
+        <div class="eyebrow">MUSIC BETWEEN COURSES</div>
+        <h1>The Dinner Party<br>Jukebox</h1>
+        <div class="record" aria-hidden="true"><span>33⅓</span></div>
+      </div>
+      <div class="service">
+        <div class="status"><span>COAT</span><b>TAKEN</b><span>DRINK</span><b>POURED</b><span>TASTE</span><b>UNDER REVIEW</b></div>
+        <p>The host is in the hall, judging somebody's music history.</p>
+        <button id="summon" type="button">Ring for the host</button>
+      </div>
+      <div class="shelf" aria-hidden="true">🍷 &nbsp; 🫒 &nbsp; 🕯️ &nbsp; 🍸 &nbsp; 🧀</div>
+    </main>
+  </section>
+  <section id="entry" class="screen" aria-label="Song request">
+    <div class="center">
+      <div class="host" aria-hidden="true">
+        <div class="head"><i class="eye l"></i><i class="eye r"></i><i class="smile"></i></div>
+        <div class="body"><i class="bow"></i></div>
+        <div class="tray">🍷</div>
+      </div>
+      <div class="bubble" id="greeting">Coat, darling. Drink?</div>
+      <form id="requestForm" class="inputwrap">
+        <input id="request" autocomplete="off" autocapitalize="words" enterkeyhint="go" placeholder="Song or artist…" aria-label="Song request">
+        <button class="go" type="submit">Ask</button>
+      </form>
+      <div class="pickrow"><button id="youChoose" class="choose" type="button">YOU CHOOSE</button></div>
+      <div id="response" class="response">Choose something quickly. Paula has opened Apple Music.</div>
+      <div id="catalog" class="catalog" hidden></div>
+      <button id="back" class="back" type="button">Back to the hall</button>
+    </div>
+  </section>
+  <div class="footer">DINNER PARTY JUKEBOX • COATS, DRINKS & MUSICAL JUDGEMENT</div>
+</div>
+<script src="dinner.js?v=1"></script>
+</body>
+</html>
