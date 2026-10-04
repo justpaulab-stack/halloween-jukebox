@@ -155,12 +155,16 @@ const post1980Known=[
 ];
 
 const modernRubbishReplies=[
-  "Yes, very good. Modern rubbish. Shall I refresh your drink?",
-  "Modern rubbish. Carry on. I'll check the vol-au-vents.",
-  "I'm sure it's very popular. Modern rubbish, though.",
-  "After 1980 I find the details become less important.",
-  "Modern rubbish. No offence intended. Well, very little.",
-  "Fine. Put it on. Wake me when we get back to the seventies."
+  "Yes, very good. Modern rubbish. Paula approved it, so in it goes.",
+  "Modern rubbish. Carry on. The Mistress has spoken.",
+  "I'm sure it's very popular. Paula put it on the playlist, so I shall behave.",
+  "After 1980 I find the details become less important. Still, Madam approved it.",
+  "Modern rubbish... Sorry, Madam.",
+  "Fine. Put it on. Paula said so. That is the end of the matter.",
+  "I wouldn't have chosen it myself. Sorry, Madam.",
+  "Modern rubbish. ...What? Nothing, Madam. Sorry, Madam.",
+  "Yes, yes, it's on the approved list. I was merely... checking the vol-au-vents.",
+  "Paula said it's allowed. I have no further comment. Sorry, Madam."
 ];
 
 const paulaApprovedGrumbles=[
@@ -352,7 +356,7 @@ function judge(q){
   } else if(hasAny(q,post1980Known)){
     verdict=pick(modernRubbishReplies);
     greeting.textContent=verdict;
-    response.textContent="Reg has stopped listening and is checking the buffet.";
+    response.textContent="Paula has approved the playlist. Reg is allowed to grumble, but not to overrule her.";
   } else if(hasAny(q,oldSchoolTerms)){
     verdict=pick(oldSchoolApprovals);
     greeting.textContent=verdict;
