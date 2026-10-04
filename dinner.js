@@ -87,6 +87,44 @@ const yardbirdsJoy=[
   "Somebody put the glitter ball on. If we're doing this, we're doing it properly."
 ];
 
+const sixtiesLondon=[
+  "the kinks","kinks","rolling stones","the rolling stones","small faces","the small faces",
+  "the who","who","dave clark five","the dave clark five","manfred mann"
+];
+const sixtiesBritish=[
+  "beatles","the beatles","animals","the animals","hollies","the hollies","zombies","the zombies",
+  "searchers","the searchers","herman's hermits","hermans hermits","cream","traffic"
+];
+const sixtiesGeneral=[
+  "beach boys","the beach boys","doors","the doors","monkees","the monkees","byrds","the byrds",
+  "mamas and the papas","the mamas and the papas","jefferson airplane","love","vanilla fudge"
+];
+
+const londonSixtiesSwoons=[
+  "Good Lord. London, the sixties. Now you're trying to finish me off.",
+  "That's London. Proper London. Move the chair, Guv.",
+  "Oh, mate. London in the sixties... you could go out on a Tuesday and come home with a new favourite band.",
+  "Now that takes me back. Tiny clubs, terrible beer, magnificent racket.",
+  "London band? Top marks. I may need that Jura after all.",
+  "You've done it now. I'm twenty-four again and somebody's nicked my coat."
+];
+
+const britishSixtiesSwoons=[
+  "British, sixties. Excellent. You understand me.",
+  "Now we're getting somewhere. Proper sixties British music.",
+  "Oh, that's lovely. Takes years off me.",
+  "Good choice. I can practically smell the dance hall floor polish.",
+  "Sixties and British? Very strong work. Have another vol-au-vent."
+];
+
+const sixtiesSwoons=[
+  "Sixties? Lovely. Leave that on.",
+  "Now you're speaking my language.",
+  "That's more like it. Takes me right back.",
+  "A sixties band. At last, something with a pulse.",
+  "Oh, I remember this lot. Don't ask me what year. I remember the shoes."
+];
+
 const paulaModern=["harry styles","lizzo"];
 const fleetwood=[
   "fleetwood mac","stevie nicks","lindsey buckingham","rumours",
@@ -214,6 +252,18 @@ function judge(q){
     verdict=pick(yardbirdsJoy);
     greeting.textContent=verdict;
     response.textContent="The butler has briefly forgotten the silver service and is emotionally back at Hammersmith Odeon in 1965.";
+  } else if(hasAny(q,sixtiesLondon)){
+    verdict=pick(londonSixtiesSwoons);
+    greeting.textContent=verdict;
+    response.textContent="Reg has abandoned professional detachment and is mentally somewhere in London around 1965.";
+  } else if(hasAny(q,sixtiesBritish)){
+    verdict=pick(britishSixtiesSwoons);
+    greeting.textContent=verdict;
+    response.textContent="British sixties music scores extremely highly with Reg.";
+  } else if(hasAny(q,sixtiesGeneral)){
+    verdict=pick(sixtiesSwoons);
+    greeting.textContent=verdict;
+    response.textContent="Reg approves warmly. The decade alone has bought you considerable goodwill.";
   } else if(hasAny(q,paulaModern)){
     verdict=pick(modernTeasing);
     greeting.textContent=verdict;
