@@ -147,6 +147,22 @@ const seventiesApprovals=[
   "Seventies British? Strong form. I'll allow myself another splash of Jura."
 ];
 
+const post1980Known=[
+  "madonna","prince","whitney houston","george michael","pet shop boys","duran duran",
+  "a-ha","aha","bon jovi","u2","oasis","blur","spice girls","take that","robbie williams",
+  "coldplay","beyonce","rihanna","adele","ed sheeran","taylor swift","dua lipa",
+  "sam smith","bruno mars","lady gaga","katy perry","arctic monkeys","the killers"
+];
+
+const modernRubbishReplies=[
+  "Yes, very good. Modern rubbish. Shall I refresh your drink?",
+  "Modern rubbish. Carry on. I'll check the vol-au-vents.",
+  "I'm sure it's very popular. Modern rubbish, though.",
+  "After 1980 I find the details become less important.",
+  "Modern rubbish. No offence intended. Well, very little.",
+  "Fine. Put it on. Wake me when we get back to the seventies."
+];
+
 const paulaModern=["harry styles","lizzo"];
 const fleetwood=[
   "fleetwood mac","stevie nicks","lindsey buckingham","rumours",
@@ -297,7 +313,11 @@ function judge(q){
   } else if(hasAny(q,paulaModern)){
     verdict=pick(modernTeasing);
     greeting.textContent=verdict;
-    response.textContent="Playable. The butler is merely making a point.";
+    response.textContent="Playable. Reg blames Paula and carries on serving drinks.";
+  } else if(hasAny(q,post1980Known)){
+    verdict=pick(modernRubbishReplies);
+    greeting.textContent=verdict;
+    response.textContent="Reg has stopped listening and is checking the buffet.";
   } else if(hasAny(q,oldSchoolTerms)){
     verdict=pick(oldSchoolApprovals);
     greeting.textContent=verdict;
